@@ -1,22 +1,28 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-class Networking{
 
+import '../deserializer/weather_deserializer.dart';
+
+class Networking {
   final String url;
-
 
   Networking({required this.url});
 
-  Future getData () async{
-  // Await the http get response, then decode the json-formatted response.
+  Future<WeatherData> getData() async {
+    // Hacer la solicitud HTTP GET
     var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var jsonResponse =
-      convert.jsonDecode(response.body) as Map<String, dynamic>;
-      var itemCount = jsonResponse['totalItems'];
-      print('Number of books about http: $itemCount.');
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
 
-}}
+    if (response.statusCode == 200) {
+      // Si la solicitud es exitosa, decodificamos el JSON
+      var jsonResponse = jsonDecode(response.body);
+
+      // Mapeamos el JSON a una instancia de WeatherData
+      WeatherData weatherData = WeatherData.fromJson(jsonResponse);
+
+      return weatherData;
+    } else {
+      // Si la solicitud falla, lanzamos una excepción
+      throw Exception('Request failed with status: ${response.statusCode}');
+    }
+  }
+}

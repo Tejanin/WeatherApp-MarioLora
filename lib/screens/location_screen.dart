@@ -38,7 +38,7 @@ class _LocationScreenState extends State<LocationScreen> {
           temperature = result.temperature;
           icon = result.icon;
           message = result.message;
-          city = "Current Location";
+          city = result.city;
         });
       }
     } catch (e) {
@@ -81,7 +81,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             temperature = result.temperature;
                             icon = result.icon;
                             message = result.message;
-                            city = "Current Location";
+                            city = result.city;
                           });
                         }
                       } catch (e) {
@@ -102,7 +102,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
                         var result = await weather.getWeatherDataByCity(cityName);
                         setState(() {
-                          temperature = "hola";
+                          temperature = result.temperature;
                           icon = result.icon;
                           message = result.message;
                           city = result.message;

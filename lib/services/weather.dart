@@ -16,12 +16,12 @@ class WeatherModel {
         throw Exception("No data received from API.");
       }
 
-      WeatherData response = WeatherData.fromJson(weatherData);
+
       var weatherMessage = WeatherMessage(
-        message: getMessage(response.temperature.toInt()),
-        icon: getWeatherIcon(response.condition),
-        temperature: (response.temperature.toInt()).toString(),
-        city: response.cityName,
+        message: getMessage(weatherData.temperature),
+        icon: getWeatherIcon(weatherData.condition),
+        temperature: (weatherData.temperature.toInt()).toString(),
+        city: weatherData.cityName,
       );
 
       return weatherMessage;
@@ -44,7 +44,7 @@ class WeatherModel {
 
       Networking networking = Networking(
           url:
-          '${baseUrl}lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey');
+          '${baseUrl}lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
       var weatherData = await networking.getData();
 
       if (weatherData == null) {
@@ -52,12 +52,12 @@ class WeatherModel {
         throw Exception("No data received from API.");
       }
 
-      WeatherData response = WeatherData.fromJson(weatherData);
+
       var weatherMessage = WeatherMessage(
-        message: getMessage(response.temperature.toInt()),
-        icon: getWeatherIcon(response.condition),
-        temperature: (response.temperature.toInt()).toString(),
-        city: response.cityName,
+        message: getMessage(weatherData.temperature),
+        icon: getWeatherIcon(weatherData.condition),
+        temperature: (weatherData.temperature.toInt()).toString(),
+        city: weatherData.cityName,
       );
 
       return weatherMessage;
@@ -98,7 +98,7 @@ class WeatherModel {
       return 'It\'s 🍦 time';
     } else if (temp > 20) {
       return 'Time for shorts and 👕';
-    } else if (temp < 10) {
+    } else if (temp > 10) {
       return 'You\'ll need 🧣 and 🧤';
     } else {
       return 'Bring a 🧥 just in case';
